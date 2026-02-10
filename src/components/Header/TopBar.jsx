@@ -64,7 +64,7 @@ const TopBar = () => {
                         initial={{ opacity: 0, y:-10}}
                         animate={{ opacity: 1, y:0}}
                         exit={{opacity:0, y:-10}}
-                        className='absolute top-full left-0 flex shadow w-30 flex-col'>
+                        className='absolute top-full left-0 flex shadow w-30 flex-col bg-white z-50'>
                             <span className='flex justify-start items-center p-2 gap-2 w-full hover:bg-gray-200 transition-colors'
                             onClick={()=>languageChoose("Turkce")}>
                                 <img src='/img/Turkce-icon.png'
@@ -107,7 +107,7 @@ const TopBar = () => {
                         initial={{ opacity: 0, y:-10}}
                         animate={{ opacity: 1, y:0}}
                         exit={{opacity:0, y:-10}}
-                        className='absolute top-full right-0 flex shadow w-20 flex-col'>
+                        className='absolute top-full right-0 flex shadow w-20 flex-col bg-white z-50'>
                             <span className='flex justify-start items-center p-2 gap-2 w-full hover:bg-gray-200 transition-colors'
                             onClick={()=>MoneyChoose("TRY")}>
                                 <img src='/img/Turkce-icon.png' 

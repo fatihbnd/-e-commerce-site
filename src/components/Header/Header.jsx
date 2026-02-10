@@ -3,7 +3,7 @@ import TopBar from './TopBar'
 
 const Header = () => {
   return (
-    <header>
+    <header className=''>
       <TopBar></TopBar>
       <MiddleBar></MiddleBar>
     </header>

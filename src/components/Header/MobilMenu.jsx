@@ -1,11 +1,41 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "motion/react"
 import { AnimatePresence } from "motion/react"
 import React from "react";
 import Menuİtems from "./Menuİtems";
+import ShoppingCartItems from "./ShoppingCartItems";
 
 const MobilMenu = () => {
-        const [mobilMenu, setMobilMenu] = useState(false);
+    const [isShoppingCartMenuOpen, setIsShoppingCartMenuOpen] = useState(false);
+    const ShoppingCartMenuRef = useRef(null);
+    const cartItems = [
+        { id: 1, icon: 'urun1', title: 'Ürün 1', price: 500 },
+        { id: 2, icon: 'urun1', title: 'Ürün 2', price: 500 },
+        { id: 3, icon: 'urun1', title: 'Ürün 3', price: 500 },
+        { id: 4, icon: 'urun1', title: 'Ürün 4', price: 500 },
+    ]
+    const totalPrice = cartItems.reduce(
+        (total, item) => total + item.price,
+        0
+    )
+    const toggleShoppingCartMenu = () => {
+        setIsShoppingCartMenuOpen(prev => !prev)
+    }
+    useEffect(() => {
+            const handleClickOutside = (event) =>{
+                if(ShoppingCartMenuRef.current &&
+                !ShoppingCartMenuRef.current.contains(event.target)){
+                    setIsShoppingCartMenuOpen(false)
+                }
+            }
+            if(isShoppingCartMenuOpen){
+                document.addEventListener('mousedown',handleClickOutside)
+            }
+            return () =>{
+                document.removeEventListener('mousedown',handleClickOutside)
+            }
+        }, [isShoppingCartMenuOpen])
+    const [mobilMenu, setMobilMenu] = useState(false);
     const mobilMenuOpen = () =>{
         setMobilMenu(true);
     }
@@ -116,9 +146,31 @@ const MobilMenu = () => {
             <img src="/img/logo.png"></img>
         </div>
 
-        <div className="relative">
-            <img src="/img/shopping-bag.png" className="size-8"></img>
+        <div className="relative" ref={ShoppingCartMenuRef}>
+            <img src="/img/shopping-bag.png" className="size-8" onClick={toggleShoppingCartMenu}></img>
             <div className="absolute bg-[var(--color-primary)] rounded-full w-5 h-5 flex items-center justify-center -top-2 -right-3">1</div>
+            <AnimatePresence>
+                {isShoppingCartMenuOpen &&(
+                    <motion.div 
+                    className='w-60 flex flex-col gap-3 top-10 right-0 absolute border-t-4 border-[var(--color-primary)] shadow-md p-3 bg-white'
+                    initial={{y:-200, opacity:0,scale:0 }}
+                    animate={{y:0, opacity:1,scale:1 }}
+                    exit={{y:-200, opacity:0,scale:0 }}
+                    transition={{ duration: 0.3 }}>
+                        {cartItems.map(item => (
+                            <ShoppingCartItems
+                            key={item.id} 
+                            icon={item.icon}
+                            title={item.title}
+                            price={item.price}/>))}
+                            <div className="border-t pt-2 text-right font-bold flex justify-between">
+                                <span>Total:</span>
+                                <span>{`${totalPrice} TL`}</span>
+                            </div>
+                            <button className='bg-[var(--color-primary)] p-3 hover:opacity-70'>Sepete Git</button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     </div>
   )

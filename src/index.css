@@ -8,3 +8,10 @@ body{
   --color-primary: #FDB2BB;
   --color-text: #222222;
 }
+
+.BannerItem:hover .BannerImg{
+  transform: translateY(-15px);
+}
+.BannerItem .BannerImg{
+  transition: 300ms;
+}
